@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — Closet60</title>
+<style>
+  :root{--black:#0a0a0a;--panel:#161616;--lime:#c8ff3d;--white:#f5f5f0;--grey:#8a8a85;--line:#262626;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--black);color:var(--white);font-family:'Helvetica Neue',Arial,sans-serif;
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+    background:radial-gradient(circle at 80% 10%, rgba(200,255,61,0.10), transparent 45%),
+               radial-gradient(circle at 10% 90%, rgba(200,255,61,0.06), transparent 40%),var(--black);
+  }
+  a{color:inherit;}
+  .logo{font-size:22px;font-weight:800;display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:32px;}
+  .logo .dot{width:9px;height:9px;background:var(--lime);border-radius:50%;box-shadow:0 0 12px var(--lime);}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:20px;
+    padding:40px 36px;width:100%;max-width:420px;
+  }
+  h1{font-size:24px;font-weight:800;letter-spacing:-0.5px;}
+  .sub{color:var(--grey);font-size:14px;margin-top:8px;line-height:1.5;}
+  form{margin-top:28px;display:flex;flex-direction:column;gap:16px;}
+  label{font-size:12.5px;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block;}
+  input{
+    width:100%;background:var(--black);border:1px solid var(--line);color:var(--white);
+    padding:13px 14px;border-radius:10px;font-size:14.5px;
+  }
+  input:focus{outline:none;border-color:var(--lime);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  button{
+    background:var(--lime);color:var(--black);border:none;padding:14px;border-radius:30px;
+    font-weight:700;font-size:15px;cursor:pointer;margin-top:8px;transition:transform .2s ease;
+  }
+  button:hover{transform:scale(1.02);}
+  button:disabled{opacity:.6;cursor:not-allowed;}
+  .msg{font-size:13.5px;padding:10px 14px;border-radius:10px;display:none;}
+  .msg.error{display:block;background:rgba(255,80,80,0.1);color:#ff8080;border:1px solid rgba(255,80,80,0.3);}
+  .msg.ok{display:block;background:rgba(200,255,61,0.08);color:var(--lime);border:1px solid rgba(200,255,61,0.3);}
+  .foot{margin-top:22px;text-align:center;font-size:13.5px;color:var(--grey);}
+  .foot a{color:var(--lime);font-weight:600;}
+  .back{display:block;text-align:center;margin-top:20px;font-size:13px;color:var(--grey);}
+</style>
+</head>
+<body>
+  <div style="width:100%;max-width:420px;">
+    <div class="logo"><span class="dot"></span>Closet60</div>
+    <div class="card">
+      <h1>Create your account</h1>
+      <p class="sub">Sign up to order in 60 minutes across Hyderabad.</p>
+      <div class="msg" id="msg"></div>
+      <form id="signupForm">
+        <div>
+          <label for="name">Full name</label>
+          <input type="text" id="name" required autocomplete="name">
+        </div>
+        <div class="row2">
+          <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" required autocomplete="email">
+          </div>
+          <div>
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" placeholder="98765 43210" autocomplete="tel">
+          </div>
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input type="password" id="password" required minlength="6" autocomplete="new-password">
+        </div>
+        <div>
+          <label for="confirm">Confirm password</label>
+          <input type="password" id="confirm" required minlength="6" autocomplete="new-password">
+        </div>
+        <button type="submit" id="submitBtn">Create Account</button>
+      </form>
+      <div class="foot">Already have an account? <a href="login.html">Log in</a></div>
+    </div>
+    <a class="back" href="index.html">← Back to Closet60</a>
+  </div>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    const msg = document.getElementById('msg');
+    const btn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.className = 'msg';
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+      if (password !== confirm) {
+        msg.className = 'msg error';
+        msg.textContent = 'Passwords do not match';
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = 'Creating account…';
+      try {
+        const res = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            password
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Sign up failed');
+        msg.className = 'msg ok';
+        msg.textContent = `Account created. Welcome, ${data.name}. Redirecting…`;
+        setTimeout(() => { window.location.href = 'index.html'; }, 600);
+      } catch (err) {
+        msg.className = 'msg error';
+        msg.textContent = err.message;
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+      }
+    });
+  </script>
+</body>
+</html>

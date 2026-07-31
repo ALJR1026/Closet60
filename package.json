@@ -1,0 +1,14 @@
+{
+  "name": "closet60-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Closet60 — Hyderabad 60-minute fashion delivery. Site + auth + admin product backend. No external dependencies — uses only Node's built-in http/fs/crypto modules.",
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {}
+}

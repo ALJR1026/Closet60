@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Closet60</title>
+<style>
+  :root{--black:#0a0a0a;--panel:#161616;--panel2:#1c1c1c;--lime:#c8ff3d;--white:#f5f5f0;--grey:#8a8a85;--line:#262626;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--black);color:var(--white);font-family:'Helvetica Neue',Arial,sans-serif;padding-bottom:80px;}
+  a{color:inherit;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 28px;}
+  header{
+    border-bottom:1px solid var(--line);padding:20px 0;position:sticky;top:0;background:rgba(10,10,10,0.9);
+    backdrop-filter:blur(10px);z-index:10;
+  }
+  header .wrap{display:flex;justify-content:space-between;align-items:center;}
+  .logo{font-size:19px;font-weight:800;display:flex;align-items:center;gap:8px;}
+  .logo .dot{width:8px;height:8px;background:var(--lime);border-radius:50%;box-shadow:0 0 10px var(--lime);}
+  .who{font-size:13.5px;color:var(--grey);}
+  .who b{color:var(--white);}
+  .logout-btn{
+    border:1px solid var(--line);color:var(--white);background:transparent;padding:8px 16px;
+    border-radius:20px;font-size:13px;cursor:pointer;margin-left:14px;
+  }
+  .logout-btn:hover{border-color:var(--lime);}
+  h1{font-size:30px;font-weight:800;letter-spacing:-1px;margin:36px 0 6px;}
+  .lead{color:var(--grey);font-size:14.5px;}
+
+  .gate{
+    display:flex;align-items:center;justify-content:center;min-height:70vh;flex-direction:column;gap:14px;
+    text-align:center;color:var(--grey);font-size:14.5px;
+  }
+
+  .panel{
+    background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;margin-top:28px;
+  }
+  .panel h2{font-size:16px;font-weight:700;margin-bottom:18px;}
+  .form-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr auto;gap:12px;align-items:end;}
+  @media(max-width:1000px){.form-grid{grid-template-columns:1fr 1fr;}}
+  .field label{display:block;font-size:10.5px;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+  .field input, .field select{
+    width:100%;background:var(--black);border:1px solid var(--line);color:var(--white);
+    padding:10px 11px;border-radius:8px;font-size:13.5px;
+  }
+  .field input:focus,.field select:focus{outline:none;border-color:var(--lime);}
+  .add-btn{
+    background:var(--lime);color:var(--black);border:none;padding:11px 20px;border-radius:8px;
+    font-weight:700;font-size:13.5px;cursor:pointer;white-space:nowrap;height:40px;
+  }
+  .add-btn:hover{opacity:.9;}
+  .add-btn:disabled{opacity:.5;cursor:not-allowed;}
+
+  .msg{font-size:13px;padding:9px 13px;border-radius:8px;margin-top:14px;display:none;}
+  .msg.error{display:block;background:rgba(255,80,80,0.1);color:#ff8080;border:1px solid rgba(255,80,80,0.3);}
+  .msg.ok{display:block;background:rgba(200,255,61,0.08);color:var(--lime);border:1px solid rgba(200,255,61,0.3);}
+
+  .filter-row{display:flex;gap:10px;align-items:center;margin:28px 0 14px;flex-wrap:wrap;}
+  .filter-row select, .filter-row input{
+    background:var(--panel);border:1px solid var(--line);color:var(--white);padding:9px 12px;border-radius:8px;font-size:13px;
+  }
+  .count{color:var(--grey);font-size:13px;margin-left:auto;}
+
+  table{width:100%;border-collapse:collapse;}
+  th{
+    text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--grey);
+    padding:10px 10px;border-bottom:1px solid var(--line);
+  }
+  td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  .thumb-cell img{width:46px;height:58px;object-fit:cover;border-radius:6px;background:#222;}
+  .row-input{
+    background:var(--black);border:1px solid var(--line);color:var(--white);
+    padding:7px 9px;border-radius:6px;font-size:13px;width:100%;
+  }
+  .row-input:focus{outline:none;border-color:var(--lime);}
+  select.row-input{padding:6px 9px;}
+  .price-cell{display:flex;gap:6px;}
+  .price-cell input{width:75px;}
+  .actions-cell{display:flex;gap:8px;white-space:nowrap;}
+  .save-btn{
+    background:var(--lime);color:var(--black);border:none;padding:7px 13px;border-radius:20px;
+    font-weight:700;font-size:12px;cursor:pointer;
+  }
+  .del-btn{
+    background:transparent;color:#ff8080;border:1px solid rgba(255,80,80,0.35);padding:7px 13px;
+    border-radius:20px;font-size:12px;cursor:pointer;
+  }
+  .del-btn:hover{background:rgba(255,80,80,0.1);}
+  .img-input{font-size:11px;color:var(--grey);max-width:130px;}
+  .tag-badge{font-size:10.5px;color:var(--lime);}
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="logo"><span class="dot"></span>Closet60 Admin</div>
+      <div style="display:flex;align-items:center;">
+        <span class="who" id="whoBox">Checking session…</span>
+        <button class="logout-btn" id="logoutBtn" style="display:none;">Log Out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap" id="gateBox" style="display:none;">
+    <div class="gate">
+      <div>You need to be logged in as an admin to view this page.</div>
+      <a href="login.html" style="color:var(--lime);font-weight:700;">Go to login →</a>
+    </div>
+  </div>
+
+  <div class="wrap" id="adminBox" style="display:none;">
+    <h1>Product Listings</h1>
+    <p class="lead">Add new products, edit prices and details, and upload product images. Changes save instantly to the live catalogue.</p>
+
+    <div class="panel">
+      <h2>Add a new product</h2>
+      <form id="addForm" enctype="multipart/form-data">
+        <div class="form-grid">
+          <div class="field">
+            <label>Product name</label>
+            <input type="text" id="newName" required>
+          </div>
+          <div class="field">
+            <label>Category</label>
+            <select id="newCat" required></select>
+          </div>
+          <div class="field">
+            <label>Price (₹)</label>
+            <input type="number" id="newPrice" required min="0">
+          </div>
+          <div class="field">
+            <label>MRP (₹)</label>
+            <input type="number" id="newMrp" required min="0">
+          </div>
+          <div class="field">
+            <label>Tag (optional)</label>
+            <input type="text" id="newTag" placeholder="New / Bestseller">
+          </div>
+          <button type="button" class="add-btn" id="addBtn">Add Product</button>
+        </div>
+        <div class="field" style="margin-top:14px;max-width:340px;">
+          <label>Product image</label>
+          <input type="file" id="newImage" accept="image/*">
+        </div>
+        <div class="msg" id="addMsg"></div>
+      </form>
+    </div>
+
+    <div class="filter-row">
+      <select id="catFilter"><option value="all">All categories</option></select>
+      <input type="text" id="searchBox" placeholder="Search products…">
+      <span class="count" id="countLabel"></span>
+    </div>
+
+    <div class="panel" style="padding:0;overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price / MRP</th>
+            <th>Tag</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="productsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const CATEGORIES = {
+      essentials: 'Everyday Essentials',
+      streetwear: 'Streetwear',
+      ethnic: 'Ethnic & Fusion',
+      workwear: 'Workwear',
+      athleisure: 'Athleisure',
+      occasion: 'Occasion Wear',
+      footwear: 'Footwear',
+      accessories: 'Accessories'
+    };
+
+    let PRODUCTS = [];
+    let currentUser = null;
+
+    function fillCategorySelects() {
+      const newCat = document.getElementById('newCat');
+      const catFilter = document.getElementById('catFilter');
+      Object.entries(CATEGORIES).forEach(([key, label]) => {
+        newCat.insertAdjacentHTML('beforeend', `<option value="${key}">${label}</option>`);
+        catFilter.insertAdjacentHTML('beforeend', `<option value="${key}">${label}</option>`);
+      });
+    }
+
+    async function checkSession() {
+      try {
+        const res = await fetch('/api/auth/me');
+        if (!res.ok) throw new Error();
+        const user = await res.json();
+        if (user.role !== 'admin') throw new Error();
+        currentUser = user;
+        document.getElementById('whoBox').innerHTML = `Logged in as <b>${user.name}</b> (${user.email})`;
+        document.getElementById('logoutBtn').style.display = 'inline-block';
+        document.getElementById('adminBox').style.display = 'block';
+        init();
+      } catch (e) {
+        document.getElementById('whoBox').textContent = 'Not logged in';
+        document.getElementById('gateBox').style.display = 'block';
+      }
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = 'login.html';
+    });
+
+    async function loadProducts() {
+      const res = await fetch('/api/products');
+      PRODUCTS = await res.json();
+      renderTable();
+    }
+
+    function renderTable() {
+      const cat = document.getElementById('catFilter').value;
+      const q = document.getElementById('searchBox').value.trim().toLowerCase();
+      let items = PRODUCTS;
+      if (cat !== 'all') items = items.filter(p => p.cat === cat);
+      if (q) items = items.filter(p => p.name.toLowerCase().includes(q));
+
+      document.getElementById('countLabel').textContent = `${items.length} of ${PRODUCTS.length} products`;
+
+      const tbody = document.getElementById('productsBody');
+      tbody.innerHTML = '';
+      items.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="thumb-cell"><img src="${p.imageUrl}" alt="${p.name}"></td>
+          <td><input class="row-input name-input" value="${escapeAttr(p.name)}"></td>
+          <td>
+            <select class="row-input cat-input">
+              ${Object.entries(CATEGORIES).map(([k, l]) => `<option value="${k}" ${k === p.cat ? 'selected' : ''}>${l}</option>`).join('')}
+            </select>
+          </td>
+          <td>
+            <div class="price-cell">
+              <input class="row-input price-input" type="number" value="${p.price}" min="0">
+              <input class="row-input mrp-input" type="number" value="${p.mrp}" min="0">
+            </div>
+          </td>
+          <td><input class="row-input tag-input" value="${escapeAttr(p.tag || '')}" placeholder="—"></td>
+          <td>
+            <div class="actions-cell">
+              <input type="file" class="img-input" accept="image/*">
+              <button class="save-btn">Save</button>
+              <button class="del-btn">Delete</button>
+            </div>
+          </td>
+        `;
+        tr.querySelector('.save-btn').addEventListener('click', () => saveProduct(p.id, tr));
+        tr.querySelector('.del-btn').addEventListener('click', () => deleteProduct(p.id));
+        tbody.appendChild(tr);
+      });
+    }
+
+    function escapeAttr(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    }
+
+    async function saveProduct(id, tr) {
+      const btn = tr.querySelector('.save-btn');
+      btn.textContent = 'Saving…';
+      btn.disabled = true;
+      const fd = new FormData();
+      fd.append('name', tr.querySelector('.name-input').value);
+      fd.append('cat', tr.querySelector('.cat-input').value);
+      fd.append('price', tr.querySelector('.price-input').value);
+      fd.append('mrp', tr.querySelector('.mrp-input').value);
+      fd.append('tag', tr.querySelector('.tag-input').value);
+      const file = tr.querySelector('.img-input').files[0];
+      if (file) fd.append('image', file);
+
+      try {
+        const res = await fetch(`/api/admin/products/${id}`, { method: 'PUT', body: fd });
+        if (!res.ok) throw new Error((await res.json()).error || 'Save failed');
+        btn.textContent = 'Saved ✓';
+        await loadProducts();
+      } catch (e) {
+        alert(e.message);
+        btn.textContent = 'Save';
+        btn.disabled = false;
+      }
+    }
+
+    async function deleteProduct(id) {
+      if (!confirm('Delete this product? This cannot be undone.')) return;
+      try {
+        const res = await fetch(`/api/admin/products/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error((await res.json()).error || 'Delete failed');
+        await loadProducts();
+      } catch (e) {
+        alert(e.message);
+      }
+    }
+
+    document.getElementById('addBtn').addEventListener('click', async () => {
+      const msg = document.getElementById('addMsg');
+      msg.className = 'msg';
+      const name = document.getElementById('newName').value.trim();
+      const cat = document.getElementById('newCat').value;
+      const price = document.getElementById('newPrice').value;
+      const mrp = document.getElementById('newMrp').value;
+      const tag = document.getElementById('newTag').value.trim();
+      const file = document.getElementById('newImage').files[0];
+
+      if (!name || !price || !mrp) {
+        msg.className = 'msg error';
+        msg.textContent = 'Name, price and MRP are required.';
+        return;
+      }
+
+      const fd = new FormData();
+      fd.append('name', name);
+      fd.append('cat', cat);
+      fd.append('price', price);
+      fd.append('mrp', mrp);
+      fd.append('tag', tag);
+      if (file) fd.append('image', file);
+
+      const addBtn = document.getElementById('addBtn');
+      addBtn.disabled = true;
+      addBtn.textContent = 'Adding…';
+      try {
+        const res = await fetch('/api/admin/products', { method: 'POST', body: fd });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Could not add product');
+        msg.className = 'msg ok';
+        msg.textContent = `Added "${data.name}" to the catalogue.`;
+        document.getElementById('addForm').reset();
+        await loadProducts();
+      } catch (e) {
+        msg.className = 'msg error';
+        msg.textContent = e.message;
+      } finally {
+        addBtn.disabled = false;
+        addBtn.textContent = 'Add Product';
+      }
+    });
+
+    document.getElementById('catFilter').addEventListener('change', renderTable);
+    document.getElementById('searchBox').addEventListener('input', renderTable);
+
+    function init() {
+      fillCategorySelects();
+      loadProducts();
+    }
+
+    checkSession();
+  </script>
+</body>
+</html>

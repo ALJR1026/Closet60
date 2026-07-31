@@ -1,0 +1,654 @@
+{
+  "users": [
+    {
+      "id": "admin-1785529235565",
+      "name": "Closet60 Admin",
+      "email": "admin@closet60.in",
+      "phone": "",
+      "passwordHash": "9f9f9164761a2783f673193ab1763ea4:c4fc0a34453cc307a172367c470d2cfa46690f8c2cfccfc850d646603dced2e2c14f2bec8b3032a5a71b1d8fa756e22affaf767e694675a991311b9e3c1f0ca5",
+      "role": "admin"
+    }
+  ],
+  "products": [
+    {
+      "id": "ess1",
+      "name": "Classic White Tee",
+      "cat": "essentials",
+      "catLabel": "Everyday Essentials",
+      "price": 499,
+      "mrp": 899,
+      "tag": "Bestseller",
+      "imageUrl": "https://picsum.photos/seed/ess1/500/650?grayscale"
+    },
+    {
+      "id": "ess2",
+      "name": "Ribbed Tank Top",
+      "cat": "essentials",
+      "catLabel": "Everyday Essentials",
+      "price": 399,
+      "mrp": 699,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/ess2/500/650?grayscale"
+    },
+    {
+      "id": "ess3",
+      "name": "Basic Black Joggers",
+      "cat": "essentials",
+      "catLabel": "Everyday Essentials",
+      "price": 899,
+      "mrp": 1499,
+      "tag": "New",
+      "imageUrl": "https://picsum.photos/seed/ess3/500/650?grayscale"
+    },
+    {
+      "id": "ess4",
+      "name": "Cotton Boxer Briefs (Pack of 3)",
+      "cat": "essentials",
+      "catLabel": "Everyday Essentials",
+      "price": 699,
+      "mrp": 999,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/ess4/500/650?grayscale"
+    },
+    {
+      "id": "ess5",
+      "name": "Everyday Crew Socks (Pack of 5)",
+      "cat": "essentials",
+      "catLabel": "Everyday Essentials",
+      "price": 349,
+      "mrp": 599,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/ess5/500/650?grayscale"
+    },
+    {
+      "id": "ess6",
+      "name": "Relaxed Fit Hoodie",
+      "cat": "essentials",
+      "catLabel": "Everyday Essentials",
+      "price": 1299,
+      "mrp": 1999,
+      "tag": "Bestseller",
+      "imageUrl": "https://picsum.photos/seed/ess6/500/650?grayscale"
+    },
+    {
+      "id": "ess7",
+      "name": "Plain Round Neck Tee \u2014 Grey",
+      "cat": "essentials",
+      "catLabel": "Everyday Essentials",
+      "price": 549,
+      "mrp": 899,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/ess7/500/650?grayscale"
+    },
+    {
+      "id": "ess8",
+      "name": "Essential Cotton Shorts",
+      "cat": "essentials",
+      "catLabel": "Everyday Essentials",
+      "price": 649,
+      "mrp": 999,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/ess8/500/650?grayscale"
+    },
+    {
+      "id": "str1",
+      "name": "Oversized Graphic Tee",
+      "cat": "streetwear",
+      "catLabel": "Streetwear",
+      "price": 799,
+      "mrp": 1299,
+      "tag": "Trending",
+      "imageUrl": "https://picsum.photos/seed/str1/500/650?grayscale"
+    },
+    {
+      "id": "str2",
+      "name": "Cargo Utility Pants",
+      "cat": "streetwear",
+      "catLabel": "Streetwear",
+      "price": 1599,
+      "mrp": 2499,
+      "tag": "Bestseller",
+      "imageUrl": "https://picsum.photos/seed/str2/500/650?grayscale"
+    },
+    {
+      "id": "str3",
+      "name": "Puffer Bomber Jacket",
+      "cat": "streetwear",
+      "catLabel": "Streetwear",
+      "price": 2499,
+      "mrp": 3999,
+      "tag": "New",
+      "imageUrl": "https://picsum.photos/seed/str3/500/650?grayscale"
+    },
+    {
+      "id": "str4",
+      "name": "Distressed Denim Jacket",
+      "cat": "streetwear",
+      "catLabel": "Streetwear",
+      "price": 2199,
+      "mrp": 3499,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/str4/500/650?grayscale"
+    },
+    {
+      "id": "str5",
+      "name": "Baggy Fit Jeans",
+      "cat": "streetwear",
+      "catLabel": "Streetwear",
+      "price": 1799,
+      "mrp": 2799,
+      "tag": "Trending",
+      "imageUrl": "https://picsum.photos/seed/str5/500/650?grayscale"
+    },
+    {
+      "id": "str6",
+      "name": "Varsity Letterman Jacket",
+      "cat": "streetwear",
+      "catLabel": "Streetwear",
+      "price": 2799,
+      "mrp": 4299,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/str6/500/650?grayscale"
+    },
+    {
+      "id": "str7",
+      "name": "Tie-Dye Streetwear Hoodie",
+      "cat": "streetwear",
+      "catLabel": "Streetwear",
+      "price": 1399,
+      "mrp": 2199,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/str7/500/650?grayscale"
+    },
+    {
+      "id": "str8",
+      "name": "Chain Detail Cargo Shorts",
+      "cat": "streetwear",
+      "catLabel": "Streetwear",
+      "price": 999,
+      "mrp": 1599,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/str8/500/650?grayscale"
+    },
+    {
+      "id": "eth1",
+      "name": "Embroidered Kurta Set",
+      "cat": "ethnic",
+      "catLabel": "Ethnic & Fusion",
+      "price": 1899,
+      "mrp": 2999,
+      "tag": "Bestseller",
+      "imageUrl": "https://picsum.photos/seed/eth1/500/650?grayscale"
+    },
+    {
+      "id": "eth2",
+      "name": "Printed Anarkali Dress",
+      "cat": "ethnic",
+      "catLabel": "Ethnic & Fusion",
+      "price": 2299,
+      "mrp": 3499,
+      "tag": "New",
+      "imageUrl": "https://picsum.photos/seed/eth2/500/650?grayscale"
+    },
+    {
+      "id": "eth3",
+      "name": "Nehru Jacket \u2014 Navy",
+      "cat": "ethnic",
+      "catLabel": "Ethnic & Fusion",
+      "price": 1699,
+      "mrp": 2599,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/eth3/500/650?grayscale"
+    },
+    {
+      "id": "eth4",
+      "name": "Fusion Palazzo Set",
+      "cat": "ethnic",
+      "catLabel": "Ethnic & Fusion",
+      "price": 1599,
+      "mrp": 2399,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/eth4/500/650?grayscale"
+    },
+    {
+      "id": "eth5",
+      "name": "Bandhani Print Kurti",
+      "cat": "ethnic",
+      "catLabel": "Ethnic & Fusion",
+      "price": 1099,
+      "mrp": 1699,
+      "tag": "Trending",
+      "imageUrl": "https://picsum.photos/seed/eth5/500/650?grayscale"
+    },
+    {
+      "id": "eth6",
+      "name": "Silk Blend Sherwani",
+      "cat": "ethnic",
+      "catLabel": "Ethnic & Fusion",
+      "price": 3499,
+      "mrp": 5499,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/eth6/500/650?grayscale"
+    },
+    {
+      "id": "eth7",
+      "name": "Indo-Western Jacket Kurta",
+      "cat": "ethnic",
+      "catLabel": "Ethnic & Fusion",
+      "price": 2599,
+      "mrp": 3999,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/eth7/500/650?grayscale"
+    },
+    {
+      "id": "eth8",
+      "name": "Chikankari Cotton Kurta",
+      "cat": "ethnic",
+      "catLabel": "Ethnic & Fusion",
+      "price": 1299,
+      "mrp": 1999,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/eth8/500/650?grayscale"
+    },
+    {
+      "id": "wor1",
+      "name": "Tailored Blazer \u2014 Charcoal",
+      "cat": "workwear",
+      "catLabel": "Workwear",
+      "price": 2999,
+      "mrp": 4499,
+      "tag": "Bestseller",
+      "imageUrl": "https://picsum.photos/seed/wor1/500/650?grayscale"
+    },
+    {
+      "id": "wor2",
+      "name": "Formal Slim Fit Shirt",
+      "cat": "workwear",
+      "catLabel": "Workwear",
+      "price": 1199,
+      "mrp": 1799,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/wor2/500/650?grayscale"
+    },
+    {
+      "id": "wor3",
+      "name": "Pleated Trousers",
+      "cat": "workwear",
+      "catLabel": "Workwear",
+      "price": 1499,
+      "mrp": 2199,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/wor3/500/650?grayscale"
+    },
+    {
+      "id": "wor4",
+      "name": "Pencil Skirt \u2014 Black",
+      "cat": "workwear",
+      "catLabel": "Workwear",
+      "price": 1099,
+      "mrp": 1699,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/wor4/500/650?grayscale"
+    },
+    {
+      "id": "wor5",
+      "name": "Structured Waistcoat",
+      "cat": "workwear",
+      "catLabel": "Workwear",
+      "price": 1799,
+      "mrp": 2699,
+      "tag": "New",
+      "imageUrl": "https://picsum.photos/seed/wor5/500/650?grayscale"
+    },
+    {
+      "id": "wor6",
+      "name": "Button-Down Oxford Shirt",
+      "cat": "workwear",
+      "catLabel": "Workwear",
+      "price": 1099,
+      "mrp": 1599,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/wor6/500/650?grayscale"
+    },
+    {
+      "id": "wor7",
+      "name": "Formal Wide-Leg Trousers",
+      "cat": "workwear",
+      "catLabel": "Workwear",
+      "price": 1599,
+      "mrp": 2399,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/wor7/500/650?grayscale"
+    },
+    {
+      "id": "wor8",
+      "name": "Office Chinos \u2014 Beige",
+      "cat": "workwear",
+      "catLabel": "Workwear",
+      "price": 1399,
+      "mrp": 2099,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/wor8/500/650?grayscale"
+    },
+    {
+      "id": "ath1",
+      "name": "Performance Track Jacket",
+      "cat": "athleisure",
+      "catLabel": "Athleisure",
+      "price": 1699,
+      "mrp": 2599,
+      "tag": "Bestseller",
+      "imageUrl": "https://picsum.photos/seed/ath1/500/650?grayscale"
+    },
+    {
+      "id": "ath2",
+      "name": "Seamless Training Leggings",
+      "cat": "athleisure",
+      "catLabel": "Athleisure",
+      "price": 1299,
+      "mrp": 1999,
+      "tag": "Trending",
+      "imageUrl": "https://picsum.photos/seed/ath2/500/650?grayscale"
+    },
+    {
+      "id": "ath3",
+      "name": "Moisture-Wick Gym Tee",
+      "cat": "athleisure",
+      "catLabel": "Athleisure",
+      "price": 799,
+      "mrp": 1199,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/ath3/500/650?grayscale"
+    },
+    {
+      "id": "ath4",
+      "name": "Compression Shorts",
+      "cat": "athleisure",
+      "catLabel": "Athleisure",
+      "price": 699,
+      "mrp": 1099,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/ath4/500/650?grayscale"
+    },
+    {
+      "id": "ath5",
+      "name": "Zip-Up Track Pants",
+      "cat": "athleisure",
+      "catLabel": "Athleisure",
+      "price": 1199,
+      "mrp": 1899,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/ath5/500/650?grayscale"
+    },
+    {
+      "id": "ath6",
+      "name": "Sports Bra \u2014 High Impact",
+      "cat": "athleisure",
+      "catLabel": "Athleisure",
+      "price": 899,
+      "mrp": 1399,
+      "tag": "New",
+      "imageUrl": "https://picsum.photos/seed/ath6/500/650?grayscale"
+    },
+    {
+      "id": "ath7",
+      "name": "Running Shorts",
+      "cat": "athleisure",
+      "catLabel": "Athleisure",
+      "price": 649,
+      "mrp": 999,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/ath7/500/650?grayscale"
+    },
+    {
+      "id": "ath8",
+      "name": "Athleisure Hoodie",
+      "cat": "athleisure",
+      "catLabel": "Athleisure",
+      "price": 1499,
+      "mrp": 2299,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/ath8/500/650?grayscale"
+    },
+    {
+      "id": "occ1",
+      "name": "Sequin Party Dress",
+      "cat": "occasion",
+      "catLabel": "Occasion Wear",
+      "price": 2799,
+      "mrp": 4299,
+      "tag": "Trending",
+      "imageUrl": "https://picsum.photos/seed/occ1/500/650?grayscale"
+    },
+    {
+      "id": "occ2",
+      "name": "Velvet Blazer Set",
+      "cat": "occasion",
+      "catLabel": "Occasion Wear",
+      "price": 3299,
+      "mrp": 4999,
+      "tag": "New",
+      "imageUrl": "https://picsum.photos/seed/occ2/500/650?grayscale"
+    },
+    {
+      "id": "occ3",
+      "name": "Satin Slip Dress",
+      "cat": "occasion",
+      "catLabel": "Occasion Wear",
+      "price": 2199,
+      "mrp": 3399,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/occ3/500/650?grayscale"
+    },
+    {
+      "id": "occ4",
+      "name": "Printed Co-ord Set",
+      "cat": "occasion",
+      "catLabel": "Occasion Wear",
+      "price": 1899,
+      "mrp": 2899,
+      "tag": "Bestseller",
+      "imageUrl": "https://picsum.photos/seed/occ4/500/650?grayscale"
+    },
+    {
+      "id": "occ5",
+      "name": "Wrap Maxi Dress",
+      "cat": "occasion",
+      "catLabel": "Occasion Wear",
+      "price": 2399,
+      "mrp": 3699,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/occ5/500/650?grayscale"
+    },
+    {
+      "id": "occ6",
+      "name": "Embellished Evening Gown",
+      "cat": "occasion",
+      "catLabel": "Occasion Wear",
+      "price": 3999,
+      "mrp": 5999,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/occ6/500/650?grayscale"
+    },
+    {
+      "id": "occ7",
+      "name": "Linen Wedding Guest Suit",
+      "cat": "occasion",
+      "catLabel": "Occasion Wear",
+      "price": 3599,
+      "mrp": 5499,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/occ7/500/650?grayscale"
+    },
+    {
+      "id": "occ8",
+      "name": "Metallic Party Top",
+      "cat": "occasion",
+      "catLabel": "Occasion Wear",
+      "price": 1599,
+      "mrp": 2399,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/occ8/500/650?grayscale"
+    },
+    {
+      "id": "foo1",
+      "name": "Classic Canvas Sneakers",
+      "cat": "footwear",
+      "catLabel": "Footwear",
+      "price": 1499,
+      "mrp": 2299,
+      "tag": "Bestseller",
+      "imageUrl": "https://picsum.photos/seed/foo1/500/650?grayscale"
+    },
+    {
+      "id": "foo2",
+      "name": "Chunky Platform Sneakers",
+      "cat": "footwear",
+      "catLabel": "Footwear",
+      "price": 2199,
+      "mrp": 3299,
+      "tag": "Trending",
+      "imageUrl": "https://picsum.photos/seed/foo2/500/650?grayscale"
+    },
+    {
+      "id": "foo3",
+      "name": "Leather Loafers",
+      "cat": "footwear",
+      "catLabel": "Footwear",
+      "price": 2499,
+      "mrp": 3799,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/foo3/500/650?grayscale"
+    },
+    {
+      "id": "foo4",
+      "name": "Running Shoes",
+      "cat": "footwear",
+      "catLabel": "Footwear",
+      "price": 2999,
+      "mrp": 4499,
+      "tag": "New",
+      "imageUrl": "https://picsum.photos/seed/foo4/500/650?grayscale"
+    },
+    {
+      "id": "foo5",
+      "name": "Ankle Strap Heels",
+      "cat": "footwear",
+      "catLabel": "Footwear",
+      "price": 1899,
+      "mrp": 2899,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/foo5/500/650?grayscale"
+    },
+    {
+      "id": "foo6",
+      "name": "Slide Sandals",
+      "cat": "footwear",
+      "catLabel": "Footwear",
+      "price": 799,
+      "mrp": 1299,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/foo6/500/650?grayscale"
+    },
+    {
+      "id": "foo7",
+      "name": "Chelsea Boots",
+      "cat": "footwear",
+      "catLabel": "Footwear",
+      "price": 2799,
+      "mrp": 4199,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/foo7/500/650?grayscale"
+    },
+    {
+      "id": "foo8",
+      "name": "Espadrille Flats",
+      "cat": "footwear",
+      "catLabel": "Footwear",
+      "price": 1299,
+      "mrp": 1999,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/foo8/500/650?grayscale"
+    },
+    {
+      "id": "acc1",
+      "name": "Woven Leather Belt",
+      "cat": "accessories",
+      "catLabel": "Accessories",
+      "price": 699,
+      "mrp": 1099,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/acc1/500/650?grayscale"
+    },
+    {
+      "id": "acc2",
+      "name": "Structured Tote Bag",
+      "cat": "accessories",
+      "catLabel": "Accessories",
+      "price": 1799,
+      "mrp": 2699,
+      "tag": "Bestseller",
+      "imageUrl": "https://picsum.photos/seed/acc2/500/650?grayscale"
+    },
+    {
+      "id": "acc3",
+      "name": "Aviator Sunglasses",
+      "cat": "accessories",
+      "catLabel": "Accessories",
+      "price": 899,
+      "mrp": 1399,
+      "tag": "Trending",
+      "imageUrl": "https://picsum.photos/seed/acc3/500/650?grayscale"
+    },
+    {
+      "id": "acc4",
+      "name": "Minimalist Watch",
+      "cat": "accessories",
+      "catLabel": "Accessories",
+      "price": 2499,
+      "mrp": 3799,
+      "tag": "New",
+      "imageUrl": "https://picsum.photos/seed/acc4/500/650?grayscale"
+    },
+    {
+      "id": "acc5",
+      "name": "Beaded Statement Necklace",
+      "cat": "accessories",
+      "catLabel": "Accessories",
+      "price": 599,
+      "mrp": 949,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/acc5/500/650?grayscale"
+    },
+    {
+      "id": "acc6",
+      "name": "Canvas Crossbody Bag",
+      "cat": "accessories",
+      "catLabel": "Accessories",
+      "price": 1199,
+      "mrp": 1899,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/acc6/500/650?grayscale"
+    },
+    {
+      "id": "acc7",
+      "name": "Wool Blend Beanie",
+      "cat": "accessories",
+      "catLabel": "Accessories",
+      "price": 549,
+      "mrp": 899,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/acc7/500/650?grayscale"
+    },
+    {
+      "id": "acc8",
+      "name": "Layered Chain Bracelet",
+      "cat": "accessories",
+      "catLabel": "Accessories",
+      "price": 449,
+      "mrp": 749,
+      "tag": "",
+      "imageUrl": "https://picsum.photos/seed/acc8/500/650?grayscale"
+    }
+  ]
+}
