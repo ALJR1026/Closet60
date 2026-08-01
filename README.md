@@ -20,20 +20,6 @@ Then open **http://localhost:3000** in your browser.
 - Sign up: `http://localhost:3000/signup.html`
 - Admin dashboard: `http://localhost:3000/admin.html`
 
-## Admin login
-
-```
-Email:    admin@closet60.in
-Password: Cl60-f3VqQK82YB!
-```
-
-Also saved in `admin-credentials.txt`. Log in at `/login.html` — you'll be
-redirected straight to the admin dashboard. **Change this password** once you
-have a real place to store it (there's no "change password" UI yet — see
-Limitations below).
-
-To generate a fresh admin password at any time:
-
 ```
 npm run seed -- --force
 ```
