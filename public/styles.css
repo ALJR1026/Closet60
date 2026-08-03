@@ -509,3 +509,16 @@ footer{border-top:1px solid var(--line);padding:64px 0 32px;}
 .track-progress-inner{height:100%;width:0%;background:var(--lime);transition:width .25s linear;}
 .track-demo-note{font-size:11px;color:var(--grey);margin-top:8px;text-align:center;}
 .track-box{max-width:440px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:30px;}
+
+/* Tracking page — rider-on-a-route animation */
+.track-route-svg{width:100%;height:100%;display:block;}
+.route-path{fill:none;stroke:var(--line);stroke-width:2.5;stroke-dasharray:1 7;stroke-linecap:round;}
+.route-path-progress{fill:none;stroke:var(--lime);stroke-width:2.5;stroke-linecap:round;filter:drop-shadow(0 0 4px rgba(var(--lime-rgb),0.5));transition:stroke-dashoffset .2s linear;}
+.route-pin circle{transition:stroke .3s ease;}
+.pin-label{font-size:7.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;fill:var(--grey);}
+.rider-glow{fill:rgba(var(--lime-rgb),0.2);animation:riderGlowPulse 1.5s ease-in-out infinite;}
+@keyframes riderGlowPulse{0%,100%{opacity:.45;transform:scale(1);}50%{opacity:1;transform:scale(1.12);}}
+.rider-wheel{fill:var(--panel);stroke:var(--white);stroke-width:1.6;}
+.rider-frame{fill:none;stroke:var(--white);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+.rider-bag{fill:var(--lime);}
+#riderPos, #riderRotate{transition:transform .22s linear;}
