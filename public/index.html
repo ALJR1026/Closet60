@@ -427,7 +427,15 @@
     });
     window.addEventListener('appinstalled', markInstalled);
 
-    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    // iOS never fires beforeinstallprompt, in any browser — every browser
+    // there needs its own manual "Add to Home Screen" instructions since
+    // they each put that option in a different menu.
+    const ua = navigator.userAgent;
+    const isIOS = /iphone|ipad|ipod/i.test(ua);
+    const isIOSChrome = isIOS && /CriOS/i.test(ua);
+    const isIOSEdge = isIOS && /EdgiOS/i.test(ua);
+    const isIOSFirefox = isIOS && /FxiOS/i.test(ua);
+    const isIOSSafari = isIOS && !isIOSChrome && !isIOSEdge && !isIOSFirefox;
 
     btn.addEventListener('click', async () => {
       if(deferredPrompt){
@@ -439,11 +447,19 @@
         return;
       }
 
-      // No native install prompt available (iOS Safari, or a browser that
-      // doesn't support it) — show manual steps instead.
-      box.innerHTML = isIOS
-        ? 'Tap the <strong>Share</strong> icon in Safari\'s toolbar, then choose <strong>“Add to Home Screen.”</strong>'
-        : 'Open your browser\'s menu and choose <strong>“Install app”</strong> or <strong>“Add to Home Screen.”</strong>';
+      // No native install prompt available — show the right manual steps
+      // for the browser actually in use.
+      let instructions;
+      if(isIOSSafari){
+        instructions = 'Tap the <strong>Share</strong> icon in the toolbar, then choose <strong>“Add to Home Screen.”</strong>';
+      } else if(isIOSChrome || isIOSEdge){
+        instructions = 'Tap the <strong>⋯ More</strong> icon (bottom right), then choose <strong>“Add to Home Screen.”</strong>';
+      } else if(isIOSFirefox){
+        instructions = 'Tap the <strong>Share</strong> icon, then choose <strong>“Add to Home Screen.”</strong>';
+      } else {
+        instructions = 'Open your browser\'s menu and choose <strong>“Install app”</strong> or <strong>“Add to Home Screen.”</strong>';
+      }
+      box.innerHTML = instructions;
       box.style.display = box.style.display === 'block' ? 'none' : 'block';
     });
   })();
