@@ -459,6 +459,37 @@ h2.section-title{
 }
 .install-instructions strong{color:var(--white);}
 
+/* /install.html — image-based step-by-step instructions */
+.platform-tabs{display:flex;gap:10px;margin-top:32px;flex-wrap:wrap;}
+.platform-tab{
+  border:1px solid var(--line);background:transparent;color:var(--grey);
+  padding:13px 26px;border-radius:30px;font-size:14px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;transition:all .2s ease;
+}
+.platform-tab:hover{border-color:var(--lime);color:var(--white);}
+.platform-tab.active{background:var(--lime);color:var(--black);border-color:var(--lime);}
+
+.install-panel{display:none;margin-top:44px;}
+.install-panel.active{display:block;}
+
+.install-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+@media(max-width:900px){.install-steps{grid-template-columns:1fr;max-width:340px;margin:0 auto;}}
+
+.install-step{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px 26px;text-align:center;}
+.install-step-num{
+  width:26px;height:26px;border-radius:50%;background:var(--lime);color:var(--black);
+  font-size:12.5px;font-weight:800;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+}
+.install-illustration{width:100%;max-width:190px;margin:0 auto 16px;display:block;}
+.install-step-caption{font-size:13.5px;color:var(--grey);line-height:1.6;}
+.install-step-caption strong{color:var(--white);}
+
+.install-note{
+  margin-top:36px;font-size:12.5px;color:var(--grey);text-align:center;max-width:480px;margin-left:auto;margin-right:auto;
+}
+.install-back-row{display:flex;justify-content:center;margin-top:44px;}
+
 /* FOOTER */
 footer{border-top:1px solid var(--line);padding:64px 0 32px;}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;}

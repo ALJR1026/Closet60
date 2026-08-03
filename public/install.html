@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get the App — Closet60</title>
+<script>
+  (function(){
+    try{
+      var t = localStorage.getItem('c60_theme');
+      if(t && t !== 'default') document.documentElement.setAttribute('data-theme', t);
+    }catch(e){}
+  })();
+</script>
+<link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Closet60">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="logo"><span class="dot"></span>Closet60</a>
+    <div class="nav-links">
+      <a href="/#how">How it Works</a>
+      <a href="/shop.html">Shop</a>
+      <a href="/#tech">Technology</a>
+      <a href="/#stores">Dark Stores</a>
+      <a href="/#download">Get the App</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-auth">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </div>
+      <a href="/cart.html" class="cart-btn" aria-label="View bag">🛍️<span class="cart-count" id="cartCount">0</span></a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/#how">How it Works</a>
+  <a href="/shop.html">Shop</a>
+  <a href="/#tech">Technology</a>
+  <a href="/#stores">Dark Stores</a>
+  <a href="/#download">Get the App</a>
+  <div class="mobile-menu-auth">
+    <a href="login.html">Login</a>
+    <a href="signup.html">Sign Up</a>
+  </div>
+</div>
+
+<div class="page-header">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/">Home</a> / <span>Get the App</span></div>
+    <h1 class="page-title">Add Closet60 to your home screen</h1>
+    <p class="page-sub">No app store needed — it takes about 10 seconds and works just like an installed app. Pick your phone below.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="platform-tabs" id="platformTabs">
+      <button type="button" class="platform-tab" data-platform="ios">📱 iPhone</button>
+      <button type="button" class="platform-tab" data-platform="android">🤖 Android</button>
+    </div>
+
+    <!-- iOS -->
+    <div class="install-panel" id="panel-ios">
+      <div class="install-steps">
+        <div class="install-step">
+          <div class="install-step-num">1</div>
+          <svg class="install-illustration" viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="220" height="56" rx="16" fill="var(--surface2)" stroke="var(--line)" stroke-width="1.5"></rect>
+            <rect x="14" y="16" width="150" height="24" rx="12" fill="var(--near-black)"></rect>
+            <text x="26" y="31" font-size="8" fill="var(--grey)" font-family="Helvetica, Arial, sans-serif">closet60.onrender.com</text>
+            <g transform="translate(190,28)">
+              <circle r="17" fill="none" stroke="var(--lime)" stroke-width="2"></circle>
+              <rect x="-6" y="-2" width="12" height="9" rx="1.5" fill="none" stroke="var(--white)" stroke-width="1.5"></rect>
+              <path d="M0,-2 L0,-9 M-3,-6 L0,-9 L3,-6" fill="none" stroke="var(--white)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+          </svg>
+          <div class="install-step-caption">Open Closet60 in <strong>Safari or Chrome</strong>, then tap the <strong>Share</strong> icon in the address bar.</div>
+        </div>
+        <div class="install-step">
+          <div class="install-step-num">2</div>
+          <svg class="install-illustration" viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="4" width="200" height="130" rx="14" fill="var(--surface2)" stroke="var(--line)" stroke-width="1.5"></rect>
+            <g font-family="Helvetica, Arial, sans-serif" font-size="10">
+              <rect x="22" y="16" width="16" height="16" rx="4" fill="var(--line)"></rect>
+              <rect x="46" y="21" width="110" height="6" rx="3" fill="var(--line)"></rect>
+              <rect x="22" y="40" width="16" height="16" rx="4" fill="var(--line)"></rect>
+              <rect x="46" y="45" width="90" height="6" rx="3" fill="var(--line)"></rect>
+              <rect x="14" y="62" width="192" height="24" rx="8" fill="var(--lime)"></rect>
+              <rect x="22" y="64" width="16" height="16" rx="4" fill="var(--black)"></rect>
+              <text x="46" y="77" fill="var(--black)" font-weight="700">Add to Home Screen</text>
+              <rect x="22" y="88" width="16" height="16" rx="4" fill="var(--line)"></rect>
+              <rect x="46" y="93" width="100" height="6" rx="3" fill="var(--line)"></rect>
+              <rect x="22" y="112" width="16" height="16" rx="4" fill="var(--line)"></rect>
+              <rect x="46" y="117" width="80" height="6" rx="3" fill="var(--line)"></rect>
+            </g>
+          </svg>
+          <div class="install-step-caption">Scroll down the share sheet and tap <strong>“Add to Home Screen.”</strong></div>
+        </div>
+        <div class="install-step">
+          <div class="install-step-num">3</div>
+          <svg class="install-illustration" viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="10" width="30" height="30" rx="8" fill="var(--line)" opacity="0.5"></rect>
+            <rect x="176" y="10" width="30" height="30" rx="8" fill="var(--line)" opacity="0.5"></rect>
+            <rect x="14" y="100" width="30" height="30" rx="8" fill="var(--line)" opacity="0.5"></rect>
+            <rect x="176" y="100" width="30" height="30" rx="8" fill="var(--line)" opacity="0.5"></rect>
+            <rect x="82" y="42" width="56" height="56" rx="14" fill="var(--black)" stroke="var(--lime)" stroke-width="2"></rect>
+            <circle cx="110" cy="61" r="7" fill="var(--lime)"></circle>
+            <text x="110" y="87" text-anchor="middle" font-size="9" font-weight="800" fill="var(--white)" font-family="Helvetica, Arial, sans-serif">C60</text>
+            <circle cx="132" cy="48" r="10" fill="var(--lime)"></circle>
+            <path d="M127,48 l3.5,4 l7,-8.5" stroke="var(--black)" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <div class="install-step-caption">Tap <strong>Add</strong> to confirm. Closet60 now sits on your home screen like any other app.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Android -->
+    <div class="install-panel" id="panel-android">
+      <div class="install-steps">
+        <div class="install-step">
+          <div class="install-step-num">1</div>
+          <svg class="install-illustration" viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="220" height="56" rx="16" fill="var(--surface2)" stroke="var(--line)" stroke-width="1.5"></rect>
+            <rect x="14" y="16" width="150" height="24" rx="12" fill="var(--near-black)"></rect>
+            <text x="26" y="31" font-size="8" fill="var(--grey)" font-family="Helvetica, Arial, sans-serif">closet60.onrender.com</text>
+            <g transform="translate(190,28)">
+              <circle r="17" fill="none" stroke="var(--lime)" stroke-width="2"></circle>
+              <circle cx="0" cy="-6" r="1.8" fill="var(--white)"></circle>
+              <circle cx="0" cy="0" r="1.8" fill="var(--white)"></circle>
+              <circle cx="0" cy="6" r="1.8" fill="var(--white)"></circle>
+            </g>
+          </svg>
+          <div class="install-step-caption">Open Closet60 in <strong>Chrome</strong>, then tap the <strong>⋮</strong> menu (top right).</div>
+        </div>
+        <div class="install-step">
+          <div class="install-step-num">2</div>
+          <svg class="install-illustration" viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="4" width="200" height="130" rx="14" fill="var(--surface2)" stroke="var(--line)" stroke-width="1.5"></rect>
+            <g font-family="Helvetica, Arial, sans-serif" font-size="10">
+              <rect x="22" y="16" width="16" height="16" rx="4" fill="var(--line)"></rect>
+              <rect x="46" y="21" width="90" height="6" rx="3" fill="var(--line)"></rect>
+              <rect x="22" y="40" width="16" height="16" rx="4" fill="var(--line)"></rect>
+              <rect x="46" y="45" width="110" height="6" rx="3" fill="var(--line)"></rect>
+              <rect x="14" y="62" width="192" height="24" rx="8" fill="var(--lime)"></rect>
+              <rect x="22" y="64" width="16" height="16" rx="4" fill="var(--black)"></rect>
+              <text x="46" y="77" fill="var(--black)" font-weight="700">Install app</text>
+              <rect x="22" y="88" width="16" height="16" rx="4" fill="var(--line)"></rect>
+              <rect x="46" y="93" width="95" height="6" rx="3" fill="var(--line)"></rect>
+              <rect x="22" y="112" width="16" height="16" rx="4" fill="var(--line)"></rect>
+              <rect x="46" y="117" width="70" height="6" rx="3" fill="var(--line)"></rect>
+            </g>
+          </svg>
+          <div class="install-step-caption">Tap <strong>“Install app”</strong> (some versions show <strong>“Add to Home screen”</strong> instead).</div>
+        </div>
+        <div class="install-step">
+          <div class="install-step-num">3</div>
+          <svg class="install-illustration" viewBox="0 0 220 140" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="10" width="30" height="30" rx="8" fill="var(--line)" opacity="0.5"></rect>
+            <rect x="176" y="10" width="30" height="30" rx="8" fill="var(--line)" opacity="0.5"></rect>
+            <rect x="14" y="100" width="30" height="30" rx="8" fill="var(--line)" opacity="0.5"></rect>
+            <rect x="176" y="100" width="30" height="30" rx="8" fill="var(--line)" opacity="0.5"></rect>
+            <rect x="82" y="42" width="56" height="56" rx="14" fill="var(--black)" stroke="var(--lime)" stroke-width="2"></rect>
+            <circle cx="110" cy="61" r="7" fill="var(--lime)"></circle>
+            <text x="110" y="87" text-anchor="middle" font-size="9" font-weight="800" fill="var(--white)" font-family="Helvetica, Arial, sans-serif">C60</text>
+            <circle cx="132" cy="48" r="10" fill="var(--lime)"></circle>
+            <path d="M127,48 l3.5,4 l7,-8.5" stroke="var(--black)" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <div class="install-step-caption">Tap <strong>Install</strong> to confirm. Closet60 now sits on your home screen and app drawer.</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="install-note">Exact wording and icon placement can vary slightly between phone models and browser versions — but "Add to Home Screen" / "Install app" is always the option you're looking for.</p>
+
+    <div class="install-back-row">
+      <a href="/" class="btn-primary">Continue to Closet60 →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="logo" style="margin-bottom:14px;"><span class="dot"></span>Closet60</a>
+        <p style="color:var(--grey);font-size:14px;max-width:280px;line-height:1.6;" id="footerTagline">Hyderabad's 60-minute quick-commerce fashion platform. Real stock, real speed. Live now.</p>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="/#">About</a>
+        <a href="/#">Careers</a>
+        <a href="/#stores">Dark Stores</a>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <a href="/#how">How it Works</a>
+        <a href="/shop.html">Shop</a>
+        <a href="/#tech">Technology</a>
+      </div>
+      <div>
+        <h5>Get in touch</h5>
+        <a href="mailto:hello@closet60.in" id="footerEmail">hello@closet60.in</a>
+        <a href="/#">Hyderabad, India</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span id="footerCopyright">© 2026 Closet60. All rights reserved.</span>
+      <span>Made for Hyderabad, built for speed.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  const tabs = document.querySelectorAll('.platform-tab');
+  const panels = { ios: document.getElementById('panel-ios'), android: document.getElementById('panel-android') };
+
+  function showPlatform(platform){
+    tabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-platform') === platform));
+    Object.keys(panels).forEach(key => panels[key].classList.toggle('active', key === platform));
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => showPlatform(tab.getAttribute('data-platform')));
+  });
+
+  // Auto-select the visitor's own platform on load.
+  const ua = navigator.userAgent;
+  const detected = /android/i.test(ua) ? 'android' : 'ios'; // default to iOS for iPhone/iPad/desktop visitors
+  showPlatform(detected);
+</script>
+
+</body>
+</html>
