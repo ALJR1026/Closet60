@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — Closet60</title>
+<script>
+  (function(){
+    try{
+      var t = localStorage.getItem('c60_theme');
+      if(t && t !== 'default') document.documentElement.setAttribute('data-theme', t);
+    }catch(e){}
+  })();
+</script>
+<link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Closet60">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="logo"><span class="dot"></span>Closet60</a>
+    <div class="nav-links">
+      <a href="/#how">How it Works</a>
+      <a href="/shop.html">Shop</a>
+      <a href="/#tech">Technology</a>
+      <a href="/#stores">Dark Stores</a>
+      <a href="/#download">Get the App</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-auth" id="authLinks">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </div>
+      <a href="/cart.html" class="cart-btn" aria-label="View bag">🛍️<span class="cart-count" id="cartCount">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/">Home</a> / <a href="/shop.html">Shop</a> / <span id="pdCrumb">Product</span></div>
+  </div>
+</div>
+
+<section id="pdSection" style="display:none;">
+  <div class="wrap">
+    <div class="pd-grid">
+      <div class="pd-image">
+        <img id="pdImage" src="" alt="">
+      </div>
+      <div class="pd-details">
+        <div class="pcat" id="pdCat"></div>
+        <h1 class="pd-name" id="pdName"></h1>
+        <div class="pd-price-row">
+          <span class="pprice" id="pdPrice"></span>
+          <span class="pmrp" id="pdMrp"></span>
+          <span class="poff" id="pdOff"></span>
+        </div>
+        <div class="pm-eta"><span class="peta-dot"></span> Delivered in 60 minutes</div>
+
+        <div class="pm-size-block">
+          <label>Select size</label>
+          <div class="size-row" id="pdSizes"></div>
+        </div>
+        <div class="pm-qty-block">
+          <label>Quantity</label>
+          <div class="qty-stepper">
+            <button type="button" id="pdQtyMinus">−</button><span id="pdQtyVal">1</span><button type="button" id="pdQtyPlus">+</button>
+          </div>
+        </div>
+        <button type="button" class="btn-primary" id="pdAddToCart" style="width:100%;justify-content:center;margin-top:22px;">Add to Bag</button>
+        <div class="msg" id="pdMsg" style="margin-top:12px;"></div>
+      </div>
+    </div>
+
+    <div id="relatedBlock" style="margin-top:64px;">
+      <div class="eyebrow fade-up">You Might Also Like</div>
+      <h2 class="section-title fade-up" style="font-size:clamp(24px,3vw,34px);margin-bottom:24px;">More from this category</h2>
+      <div class="related-strip" id="relatedStrip"></div>
+    </div>
+  </div>
+</section>
+
+<div class="empty-state" id="pdNotFound" style="display:none;">
+  <div class="es-icon">🔍</div>
+  <h2>Product not found</h2>
+  <p>This item may no longer be available.</p>
+  <a href="/shop.html" class="btn-primary" style="margin-top:16px;display:inline-flex;">Back to Shop</a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="logo" style="margin-bottom:14px;"><span class="dot"></span>Closet60</a>
+        <p style="color:var(--grey);font-size:14px;max-width:280px;line-height:1.6;" id="footerTagline">Hyderabad's 60-minute quick-commerce fashion platform. Real stock, real speed. Live now.</p>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="/#">About</a>
+        <a href="/#">Careers</a>
+        <a href="/#stores">Dark Stores</a>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <a href="/#how">How it Works</a>
+        <a href="/shop.html">Shop</a>
+        <a href="/#tech">Technology</a>
+      </div>
+      <div>
+        <h5>Get in touch</h5>
+        <a href="mailto:hello@closet60.in" id="footerEmail">hello@closet60.in</a>
+        <a href="/#">Hyderabad, India</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span id="footerCopyright">© 2026 Closet60. All rights reserved.</span>
+      <span>Made for Hyderabad, built for speed.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const productId = params.get('id');
+  let currentProduct = null;
+  let currentSize = null;
+  let currentQty = 1;
+
+  function renderProduct(p){
+    currentProduct = p;
+    currentSize = null;
+    currentQty = 1;
+
+    document.getElementById('pdCrumb').textContent = p.name;
+    document.title = p.name + ' — Closet60';
+    document.getElementById('pdImage').src = imgFor(p);
+    document.getElementById('pdImage').alt = p.name;
+    document.getElementById('pdCat').textContent = p.catLabel || '';
+    document.getElementById('pdName').textContent = p.name;
+    document.getElementById('pdPrice').textContent = '₹' + p.price.toLocaleString();
+    document.getElementById('pdMrp').textContent = '₹' + p.mrp.toLocaleString();
+    document.getElementById('pdOff').textContent = offPct(p.price, p.mrp) + '% off';
+    document.getElementById('pdQtyVal').textContent = '1';
+    document.getElementById('pdMsg').className = 'msg';
+    document.getElementById('pdMsg').textContent = '';
+
+    const sizes = sizesFor(p);
+    const sizeBox = document.getElementById('pdSizes');
+    sizeBox.innerHTML = '';
+    sizes.forEach(s => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'size-chip';
+      chip.textContent = s;
+      chip.addEventListener('click', () => {
+        currentSize = s;
+        sizeBox.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+      });
+      sizeBox.appendChild(chip);
+    });
+    if(sizes.length === 1){
+      currentSize = sizes[0];
+      sizeBox.querySelector('.size-chip').classList.add('selected');
+    }
+
+    document.getElementById('pdSection').style.display = 'block';
+    document.getElementById('pdNotFound').style.display = 'none';
+
+    loadRelated(p);
+  }
+
+  async function loadRelated(p){
+    try{
+      const res = await fetch('/api/products');
+      if(!res.ok) return;
+      const all = await res.json();
+      const related = all.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4);
+      const strip = document.getElementById('relatedStrip');
+      strip.innerHTML = '';
+      if(!related.length){ document.getElementById('relatedBlock').style.display = 'none'; return; }
+      related.forEach(r => {
+        const card = document.createElement('a');
+        card.className = 'product-card';
+        card.href = `/product.html?id=${encodeURIComponent(r.id)}`;
+        card.innerHTML = `
+          <div class="product-img">
+            <img src="${imgFor(r)}" alt="${escapeHtml(r.name)}" loading="lazy">
+            <span class="peta">60 min</span>
+          </div>
+          <div class="product-info">
+            <div class="pcat">${escapeHtml(r.catLabel || '')}</div>
+            <div class="pname">${escapeHtml(r.name)}</div>
+            <div class="prow">
+              <span class="pprice">₹${r.price.toLocaleString()}</span>
+              <span class="pmrp">₹${r.mrp.toLocaleString()}</span>
+            </div>
+          </div>
+        `;
+        strip.appendChild(card);
+      });
+    }catch(e){ /* backend not running */ }
+  }
+
+  async function loadProduct(){
+    if(!productId){
+      document.getElementById('pdNotFound').style.display = 'block';
+      return;
+    }
+    try{
+      const res = await fetch(`/api/products/${encodeURIComponent(productId)}`);
+      if(res.ok){
+        const p = await res.json();
+        if(p && p.id){ renderProduct(p); return; }
+      }
+    }catch(e){ /* backend not running */ }
+    document.getElementById('pdNotFound').style.display = 'block';
+  }
+  loadProduct();
+
+  document.getElementById('pdQtyMinus').addEventListener('click', () => {
+    currentQty = Math.max(1, currentQty - 1);
+    document.getElementById('pdQtyVal').textContent = currentQty;
+  });
+  document.getElementById('pdQtyPlus').addEventListener('click', () => {
+    currentQty = Math.min(9, currentQty + 1);
+    document.getElementById('pdQtyVal').textContent = currentQty;
+  });
+  document.getElementById('pdAddToCart').addEventListener('click', () => {
+    const msg = document.getElementById('pdMsg');
+    if(!currentSize){
+      msg.className = 'msg error';
+      msg.textContent = 'Please select a size.';
+      return;
+    }
+    addToCart(currentProduct, currentSize, currentQty);
+    msg.className = 'msg ok';
+    msg.textContent = 'Added to bag.';
+  });
+</script>
+
+</body>
+</html>

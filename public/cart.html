@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Bag — Closet60</title>
+<script>
+  (function(){
+    try{
+      var t = localStorage.getItem('c60_theme');
+      if(t && t !== 'default') document.documentElement.setAttribute('data-theme', t);
+    }catch(e){}
+  })();
+</script>
+<link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Closet60">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="logo"><span class="dot"></span>Closet60</a>
+    <div class="nav-links">
+      <a href="/#how">How it Works</a>
+      <a href="/shop.html">Shop</a>
+      <a href="/#tech">Technology</a>
+      <a href="/#stores">Dark Stores</a>
+      <a href="/#download">Get the App</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-auth" id="authLinks">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </div>
+      <a href="/cart.html" class="cart-btn active" aria-label="View bag">🛍️<span class="cart-count" id="cartCount">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/">Home</a> / <span>Your Bag</span></div>
+    <h1 class="page-title">Your Bag</h1>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div id="cartItemsBox"></div>
+
+    <div class="empty-state" id="cartEmptyMsg" style="display:none;">
+      <div class="es-icon">🛍️</div>
+      <h2>Your bag is empty</h2>
+      <p>Add something you'll actually wear.</p>
+      <a href="/shop.html" class="btn-primary" style="margin-top:16px;display:inline-flex;">Browse the Shop</a>
+    </div>
+
+    <div id="cartSummary" class="summary-box" style="display:none;">
+      <div class="cart-total-row"><span>Subtotal</span><span id="cartSubtotal"></span></div>
+      <a href="/checkout.html" class="btn-primary" style="width:100%;justify-content:center;margin-top:16px;">Proceed to Checkout →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="logo" style="margin-bottom:14px;"><span class="dot"></span>Closet60</a>
+        <p style="color:var(--grey);font-size:14px;max-width:280px;line-height:1.6;" id="footerTagline">Hyderabad's 60-minute quick-commerce fashion platform. Real stock, real speed. Live now.</p>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="/#">About</a>
+        <a href="/#">Careers</a>
+        <a href="/#stores">Dark Stores</a>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <a href="/#how">How it Works</a>
+        <a href="/shop.html">Shop</a>
+        <a href="/#tech">Technology</a>
+      </div>
+      <div>
+        <h5>Get in touch</h5>
+        <a href="mailto:hello@closet60.in" id="footerEmail">hello@closet60.in</a>
+        <a href="/#">Hyderabad, India</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span id="footerCopyright">© 2026 Closet60. All rights reserved.</span>
+      <span>Made for Hyderabad, built for speed.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  function renderCart(){
+    const box = document.getElementById('cartItemsBox');
+    const emptyMsg = document.getElementById('cartEmptyMsg');
+    const summary = document.getElementById('cartSummary');
+
+    box.innerHTML = '';
+
+    if(!CART.length){
+      emptyMsg.style.display = 'block';
+      summary.style.display = 'none';
+      return;
+    }
+
+    emptyMsg.style.display = 'none';
+    summary.style.display = 'block';
+
+    let subtotal = 0;
+    CART.forEach((item, idx) => {
+      subtotal += item.price * item.qty;
+      const row = document.createElement('div');
+      row.className = 'cart-item-row';
+      row.innerHTML = `
+        <img src="${item.imageUrl}" alt="${escapeHtml(item.name)}">
+        <div class="cart-item-info">
+          <div class="ciname">${escapeHtml(item.name)}</div>
+          <div class="cimeta">Size ${escapeHtml(item.size)} · Qty
+            <button type="button" class="qty-mini" data-action="dec" data-idx="${idx}">−</button>
+            <span>${item.qty}</span>
+            <button type="button" class="qty-mini" data-action="inc" data-idx="${idx}">+</button>
+          </div>
+          <div class="ciprice">₹${(item.price * item.qty).toLocaleString()}</div>
+        </div>
+        <button type="button" class="cart-item-remove" data-idx="${idx}" aria-label="Remove">Remove</button>
+      `;
+      box.appendChild(row);
+    });
+
+    document.getElementById('cartSubtotal').textContent = '₹' + subtotal.toLocaleString();
+
+    box.querySelectorAll('.cart-item-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        removeFromCart(parseInt(btn.getAttribute('data-idx'), 10));
+        renderCart();
+      });
+    });
+    box.querySelectorAll('.qty-mini').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-idx'), 10);
+        const action = btn.getAttribute('data-action');
+        if(action === 'inc') CART[idx].qty = Math.min(9, CART[idx].qty + 1);
+        else CART[idx].qty = Math.max(1, CART[idx].qty - 1);
+        saveCart();
+        renderCart();
+      });
+    });
+  }
+
+  renderCart();
+</script>
+
+</body>
+</html>

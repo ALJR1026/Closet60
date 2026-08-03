@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Order — Closet60</title>
+<script>
+  (function(){
+    try{
+      var t = localStorage.getItem('c60_theme');
+      if(t && t !== 'default') document.documentElement.setAttribute('data-theme', t);
+    }catch(e){}
+  })();
+</script>
+<link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Closet60">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="logo"><span class="dot"></span>Closet60</a>
+    <div class="nav-links">
+      <a href="/#how">How it Works</a>
+      <a href="/shop.html">Shop</a>
+      <a href="/#tech">Technology</a>
+      <a href="/#stores">Dark Stores</a>
+      <a href="/#download">Get the App</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-auth" id="authLinks">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </div>
+      <a href="/cart.html" class="cart-btn" aria-label="View bag">🛍️<span class="cart-count" id="cartCount">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/">Home</a> / <span>Track Order</span></div>
+  </div>
+</div>
+
+<section id="trackSection" style="display:none;">
+  <div class="wrap">
+    <div class="track-box">
+      <div style="text-align:center;margin-bottom:16px;">
+        <div class="eyebrow" style="margin-bottom:4px;">Order Confirmed</div>
+        <h1 id="trackOrderId" style="font-size:22px;font-weight:800;"></h1>
+      </div>
+      <div class="map-box" style="height:190px;">
+        <div class="route-line"></div>
+        <div class="map-dot"></div>
+      </div>
+      <div class="eta-card" style="margin-top:16px;">
+        <div>
+          <div class="eta-label">Arriving in</div>
+          <div class="eta-num" id="trackEta">60:00</div>
+        </div>
+        <div style="font-size:13px;color:var(--grey);text-align:right;" id="trackRiderInfo">Rider: —</div>
+      </div>
+      <div class="track-progress-outer"><div class="track-progress-inner" id="trackProgressBar"></div></div>
+      <div class="track-demo-note">Sped up for this demo — real orders arrive within 60 minutes.</div>
+      <div id="trackItemsList" style="margin-top:16px;display:flex;flex-direction:column;gap:8px;"></div>
+      <div id="trackDeliveredMsg" style="display:none;text-align:center;color:var(--lime);font-weight:800;font-size:17px;margin-top:16px;">✓ Delivered! Enjoy your order.</div>
+      <div style="display:flex;gap:14px;justify-content:center;margin-top:24px;flex-wrap:wrap;">
+        <a href="/shop.html" class="btn-ghost">Continue Shopping</a>
+        <a href="/" class="btn-ghost">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="empty-state" id="trackNotFound" style="display:none;">
+  <div class="es-icon">📦</div>
+  <h2>Order not found</h2>
+  <p>We couldn't find tracking details for this order on this device.</p>
+  <a href="/shop.html" class="btn-primary" style="margin-top:16px;display:inline-flex;">Browse the Shop</a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="logo" style="margin-bottom:14px;"><span class="dot"></span>Closet60</a>
+        <p style="color:var(--grey);font-size:14px;max-width:280px;line-height:1.6;" id="footerTagline">Hyderabad's 60-minute quick-commerce fashion platform. Real stock, real speed. Live now.</p>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="/#">About</a>
+        <a href="/#">Careers</a>
+        <a href="/#stores">Dark Stores</a>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <a href="/#how">How it Works</a>
+        <a href="/shop.html">Shop</a>
+        <a href="/#tech">Technology</a>
+      </div>
+      <div>
+        <h5>Get in touch</h5>
+        <a href="mailto:hello@closet60.in" id="footerEmail">hello@closet60.in</a>
+        <a href="/#">Hyderabad, India</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span id="footerCopyright">© 2026 Closet60. All rights reserved.</span>
+      <span>Made for Hyderabad, built for speed.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const orderId = params.get('order');
+
+  function loadOrder(){
+    if(!orderId) return null;
+    try{
+      const raw = localStorage.getItem('c60_order_' + orderId);
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){ return null; }
+  }
+
+  const order = loadOrder();
+
+  if(!order){
+    document.getElementById('trackNotFound').style.display = 'block';
+  } else {
+    document.getElementById('trackSection').style.display = 'block';
+    document.getElementById('trackOrderId').textContent = 'Order ' + order.id;
+    document.getElementById('trackRiderInfo').innerHTML = `Rider: ${order.rider}<br>${order.hub}`;
+
+    const itemsBox = document.getElementById('trackItemsList');
+    order.items.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'order-item';
+      row.innerHTML = `
+        <div class="thumb"><img src="${item.imageUrl}" alt=""></div>
+        <div class="txt"><b>${escapeHtml(item.name)}</b>Size ${escapeHtml(item.size)} · Qty ${item.qty}</div>
+      `;
+      itemsBox.appendChild(row);
+    });
+
+    // Elapsed real time since the order was placed determines progress, so
+    // refreshing or returning to this page later keeps the timeline consistent
+    // instead of resetting the countdown from scratch.
+    const TOTAL_SIM_SECONDS = 60 * 60;   // 60 minutes of "real" delivery time
+    const DEMO_SPEEDUP = 60;             // compressed into 60 real seconds for this demo
+
+    function tick(){
+      const elapsedRealSeconds = (Date.now() - order.placedAt) / 1000;
+      const elapsedSimSeconds = Math.min(TOTAL_SIM_SECONDS, elapsedRealSeconds * DEMO_SPEEDUP);
+      const remainingSimSeconds = Math.max(0, TOTAL_SIM_SECONDS - elapsedSimSeconds);
+
+      const m = Math.floor(remainingSimSeconds / 60).toString().padStart(2, '0');
+      const s = Math.floor(remainingSimSeconds % 60).toString().padStart(2, '0');
+      document.getElementById('trackEta').textContent = `${m}:${s}`;
+
+      const pct = (elapsedSimSeconds / TOTAL_SIM_SECONDS) * 100;
+      document.getElementById('trackProgressBar').style.width = pct + '%';
+
+      if(remainingSimSeconds <= 0){
+        document.getElementById('trackDeliveredMsg').style.display = 'block';
+        document.getElementById('trackEta').textContent = '00:00';
+        clearInterval(timer);
+      }
+    }
+    tick();
+    const timer = setInterval(tick, 250);
+  }
+</script>
+
+</body>
+</html>

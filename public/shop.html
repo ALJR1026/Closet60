@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop — Closet60</title>
+<script>
+  (function(){
+    try{
+      var t = localStorage.getItem('c60_theme');
+      if(t && t !== 'default') document.documentElement.setAttribute('data-theme', t);
+    }catch(e){}
+  })();
+</script>
+<link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Closet60">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="logo"><span class="dot"></span>Closet60</a>
+    <div class="nav-links">
+      <a href="/#how">How it Works</a>
+      <a href="/shop.html" class="active">Shop</a>
+      <a href="/#tech">Technology</a>
+      <a href="/#stores">Dark Stores</a>
+      <a href="/#download">Get the App</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-auth" id="authLinks">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </div>
+      <a href="/cart.html" class="cart-btn" aria-label="View bag">🛍️<span class="cart-count" id="cartCount">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="/">Home</a> / <span>Shop</span></div>
+    <h1 class="page-title">In stock right now, near you.</h1>
+    <p class="page-sub">A snapshot of what's live in the Hyderabad catalogue today. Prices and stock update in real time on the app.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="search-row">
+      <input type="text" class="search-input" id="searchInput" placeholder="Search products…">
+    </div>
+
+    <div class="shop-tabs" id="shopTabs">
+      <button class="shop-tab active" data-cat="all">All</button>
+      <button class="shop-tab" data-cat="essentials">Everyday Essentials</button>
+      <button class="shop-tab" data-cat="streetwear">Streetwear</button>
+      <button class="shop-tab" data-cat="ethnic">Ethnic &amp; Fusion</button>
+      <button class="shop-tab" data-cat="workwear">Workwear</button>
+      <button class="shop-tab" data-cat="athleisure">Athleisure</button>
+      <button class="shop-tab" data-cat="occasion">Occasion Wear</button>
+      <button class="shop-tab" data-cat="footwear">Footwear</button>
+      <button class="shop-tab" data-cat="accessories">Accessories</button>
+    </div>
+
+    <div class="no-results" id="noResults" style="display:none;">No products match your search.</div>
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="logo" style="margin-bottom:14px;"><span class="dot"></span>Closet60</a>
+        <p style="color:var(--grey);font-size:14px;max-width:280px;line-height:1.6;" id="footerTagline">Hyderabad's 60-minute quick-commerce fashion platform. Real stock, real speed. Live now.</p>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="/#">About</a>
+        <a href="/#">Careers</a>
+        <a href="/#stores">Dark Stores</a>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <a href="/#how">How it Works</a>
+        <a href="/shop.html">Shop</a>
+        <a href="/#tech">Technology</a>
+      </div>
+      <div>
+        <h5>Get in touch</h5>
+        <a href="mailto:hello@closet60.in" id="footerEmail">hello@closet60.in</a>
+        <a href="/#">Hyderabad, India</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span id="footerCopyright">© 2026 Closet60. All rights reserved.</span>
+      <span>Made for Hyderabad, built for speed.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  let PRODUCTS = [];
+  let currentFilter = 'all';
+  let currentSearch = '';
+
+  const grid = document.getElementById('productGrid');
+  const noResults = document.getElementById('noResults');
+
+  function renderProducts(){
+    grid.innerHTML = '';
+    let items = currentFilter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === currentFilter);
+    if(currentSearch){
+      const q = currentSearch.toLowerCase();
+      items = items.filter(p => p.name.toLowerCase().includes(q) || (p.catLabel || '').toLowerCase().includes(q));
+    }
+    noResults.style.display = items.length ? 'none' : 'block';
+    items.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.setAttribute('data-category', p.cat);
+      card.innerHTML = `
+        <div class="product-img">
+          ${p.tag ? `<span class="ptag">${escapeHtml(p.tag)}</span>` : ''}
+          <img src="${imgFor(p)}" alt="${escapeHtml(p.name)}" loading="lazy">
+          <span class="peta">60 min</span>
+          <button class="quick-add" title="Add to bag" type="button">+</button>
+        </div>
+        <div class="product-info">
+          <div class="pcat">${escapeHtml(p.catLabel || '')}</div>
+          <div class="pname">${escapeHtml(p.name)}</div>
+          <div class="prow">
+            <span class="pprice">₹${p.price.toLocaleString()}</span>
+            <span class="pmrp">₹${p.mrp.toLocaleString()}</span>
+            <span class="poff">${offPct(p.price,p.mrp)}% off</span>
+          </div>
+        </div>
+      `;
+      card.querySelector('.quick-add').addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const btn = e.currentTarget;
+        addToCart(p, sizesFor(p)[0], 1);
+        btn.textContent = '✓';
+        btn.classList.add('added');
+        setTimeout(()=>{ btn.textContent = '+'; btn.classList.remove('added'); }, 1400);
+      });
+      card.addEventListener('click', ()=>{ window.location.href = `/product.html?id=${encodeURIComponent(p.id)}`; });
+      grid.appendChild(card);
+    });
+  }
+
+  async function loadProducts(){
+    try{
+      const res = await fetch('/api/products');
+      if(res.ok){
+        const data = await res.json();
+        if(Array.isArray(data)) PRODUCTS = data;
+      }
+    }catch(e){ /* backend not running */ }
+    renderProducts();
+  }
+  loadProducts();
+
+  document.getElementById('shopTabs').addEventListener('click', (e)=>{
+    const btn = e.target.closest('.shop-tab');
+    if(!btn) return;
+    document.querySelectorAll('.shop-tab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.getAttribute('data-cat');
+    renderProducts();
+  });
+
+  let searchTimer = null;
+  document.getElementById('searchInput').addEventListener('input', (e)=>{
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(()=>{
+      currentSearch = e.target.value.trim();
+      renderProducts();
+    }, 150);
+  });
+
+  // Pre-select a category tab if arriving via ?cat=
+  const params = new URLSearchParams(location.search);
+  const catParam = params.get('cat');
+  if(catParam){
+    const tab = document.querySelector(`.shop-tab[data-cat="${catParam}"]`);
+    if(tab){ tab.click(); }
+  }
+</script>
+
+</body>
+</html>
