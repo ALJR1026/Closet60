@@ -117,7 +117,37 @@ nav .wrap{
   transition:transform .2s ease;
 }
 .nav-cta:hover{transform:scale(1.05);}
-@media(max-width:860px){.nav-links{display:none;}}
+
+/* Mobile nav: collapse links/auth/CTA into a hamburger + slide-down panel so
+   the header never overflows on narrow phones. */
+.nav-toggle{
+  display:none;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);
+  background:transparent;cursor:pointer;flex-shrink:0;
+  flex-direction:column;align-items:center;justify-content:center;gap:5px;
+}
+.nav-toggle span{width:18px;height:2px;background:var(--white);border-radius:2px;transition:transform .25s ease, opacity .25s ease;}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-toggle.open span:nth-child(2){opacity:0;}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mobile-menu{
+  display:none;flex-direction:column;gap:2px;
+  position:fixed;top:76px;left:0;right:0;z-index:99;
+  background:var(--near-black);border-bottom:1px solid var(--line);
+  padding:12px 32px 24px;max-height:calc(100vh - 76px);overflow-y:auto;
+}
+.mobile-menu.show{display:flex;}
+.mobile-menu a{padding:15px 2px;font-size:15.5px;font-weight:600;color:var(--white);border-bottom:1px solid var(--line);}
+.mobile-menu a.active{color:var(--lime);}
+.mobile-menu .mobile-menu-auth{display:flex;gap:20px;padding:15px 2px 4px;font-size:14px;color:var(--grey);}
+.mobile-menu .mobile-menu-auth a{padding:0;border-bottom:none;font-weight:700;color:var(--lime);}
+
+@media(max-width:860px){
+  .nav-links{display:none;}
+  .nav-auth{display:none;}
+  .nav-cta{display:none;}
+  .nav-toggle{display:flex;}
+}
 
 /* HERO */
 header.hero{
@@ -420,6 +450,14 @@ h2.section-title{
   display:flex;gap:8px;align-items:center;justify-content:center;
 }
 .cta-rating b{color:var(--lime);}
+
+.install-row{position:relative;z-index:1;margin-top:36px;display:flex;justify-content:center;}
+.install-instructions{
+  position:relative;z-index:1;margin:20px auto 0;max-width:420px;text-align:left;
+  background:var(--black);border:1px solid var(--line);border-radius:14px;
+  padding:16px 20px;font-size:13.5px;color:var(--grey);line-height:1.6;
+}
+.install-instructions strong{color:var(--white);}
 
 /* FOOTER */
 footer{border-top:1px solid var(--line);padding:64px 0 32px;}

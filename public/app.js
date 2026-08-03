@@ -67,22 +67,52 @@ if ('serviceWorker' in navigator) {
 }
 
 // ---- Auth-aware nav ----
+// Updates every matching container (the desktop nav-auth block AND the
+// mobile-menu's auth block, if present) so login state stays in sync
+// wherever the page shows it.
 async function checkAuth() {
-  const box = document.getElementById('authLinks');
-  if (!box) return;
+  const boxes = document.querySelectorAll('.nav-auth, .mobile-menu-auth');
+  if (!boxes.length) return;
   try {
     const res = await fetch('/api/auth/me');
     if (!res.ok) return;
     const user = await res.json();
-    box.innerHTML = `<span>Hi, ${escapeHtml(user.name.split(' ')[0])}</span>${user.role === 'admin' ? '<a href="/admin.html">Admin</a>' : ''}<a href="#" id="logoutLink">Logout</a>`;
-    document.getElementById('logoutLink').addEventListener('click', async (e) => {
-      e.preventDefault();
-      await fetch('/api/auth/logout', { method: 'POST' });
-      location.reload();
+    const html = `<span>Hi, ${escapeHtml(user.name.split(' ')[0])}</span>${user.role === 'admin' ? '<a href="/admin.html">Admin</a>' : ''}<a href="#" class="logoutLink">Logout</a>`;
+    boxes.forEach(box => { box.innerHTML = html; });
+    document.querySelectorAll('.logoutLink').forEach(link => {
+      link.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await fetch('/api/auth/logout', { method: 'POST' });
+        location.reload();
+      });
     });
   } catch (e) { /* backend not running */ }
 }
 checkAuth();
+
+// ---- Mobile nav: hamburger toggle for the slide-down menu ----
+(function setupMobileNav() {
+  const toggle = document.getElementById('navToggle');
+  const menu = document.getElementById('mobileMenu');
+  if (!toggle || !menu) return;
+
+  function closeMenu() {
+    menu.classList.remove('show');
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+  function openMenu() {
+    menu.classList.add('show');
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+  }
+
+  toggle.addEventListener('click', () => {
+    if (menu.classList.contains('show')) closeMenu(); else openMenu();
+  });
+  menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+})();
 
 // ---- Theme + footer content (every page shares these) ----
 // Homepage-only content (hero, banner slideshow, stats) is applied via the

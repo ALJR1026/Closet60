@@ -38,15 +38,27 @@
       <a href="#download">Get the App</a>
     </div>
     <div class="nav-right">
-      <div class="nav-auth" id="authLinks">
+      <div class="nav-auth">
         <a href="login.html">Login</a>
         <a href="signup.html">Sign Up</a>
       </div>
       <a href="/cart.html" class="cart-btn" aria-label="View bag">🛍️<span class="cart-count" id="cartCount">0</span></a>
       <a href="/shop.html" class="nav-cta">Order Now</a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#how">How it Works</a>
+  <a href="/shop.html">Shop</a>
+  <a href="#tech">Technology</a>
+  <a href="#stores">Dark Stores</a>
+  <a href="#download">Get the App</a>
+  <div class="mobile-menu-auth">
+    <a href="login.html">Login</a>
+    <a href="signup.html">Sign Up</a>
+  </div>
+</div>
 
 <div class="promo-carousel" id="promoCarousel">
   <div class="carousel-track" id="carouselTrack"></div>
@@ -243,11 +255,11 @@
   <div class="wrap">
     <div class="cta-section fade-up">
       <h2>The app is live. Your closet is 60 minutes away.</h2>
-      <p>Download Closet60 and get 20% off your first order anywhere in Hyderabad.</p>
-      <div class="store-badges">
-        <a href="#" class="store-badge-btn"><span class="glyph"></span><span class="sb-text"><small>Download on the</small><span>App Store</span></span></a>
-        <a href="#" class="store-badge-btn"><span class="glyph">▶</span><span class="sb-text"><small>Get it on</small><span>Google Play</span></span></a>
+      <p id="downloadSub">Add Closet60 to your home screen and get 20% off your first order anywhere in Hyderabad.</p>
+      <div class="install-row">
+        <button type="button" class="btn-primary" id="installAppBtn">Get the App Now</button>
       </div>
+      <div class="install-instructions" id="installInstructions" style="display:none;"></div>
       <div class="cta-rating"><b>4.8★</b> · 18,000+ ratings · #1 Fashion Delivery App in Hyderabad</div>
     </div>
   </div>
@@ -392,6 +404,49 @@
       });
     }
   };
+
+  // ---- "Get the App Now" — real PWA install flow, no fake store links ----
+  (function setupInstallPrompt(){
+    const btn = document.getElementById('installAppBtn');
+    const box = document.getElementById('installInstructions');
+    if(!btn) return;
+
+    const markInstalled = () => {
+      btn.textContent = 'You have the app installed ✓';
+      btn.disabled = true;
+      box.style.display = 'none';
+    };
+
+    const alreadyStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if(alreadyStandalone){ markInstalled(); return; }
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+    window.addEventListener('appinstalled', markInstalled);
+
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+    btn.addEventListener('click', async () => {
+      if(deferredPrompt){
+        box.style.display = 'none';
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        if(choice && choice.outcome === 'accepted') markInstalled();
+        return;
+      }
+
+      // No native install prompt available (iOS Safari, or a browser that
+      // doesn't support it) — show manual steps instead.
+      box.innerHTML = isIOS
+        ? 'Tap the <strong>Share</strong> icon in Safari\'s toolbar, then choose <strong>“Add to Home Screen.”</strong>'
+        : 'Open your browser\'s menu and choose <strong>“Install app”</strong> or <strong>“Add to Home Screen.”</strong>';
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    });
+  })();
 
   // Scroll reveal
   const items = document.querySelectorAll('.fade-up');
