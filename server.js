@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const { load, save, ensureDB, getSecret, CATEGORY_LABELS, withSiteContentDefaults, USE_REDIS } = require('./lib/db');
+const { load, save, ensureDB, getSecret, CATEGORY_LABELS, withSiteContentDefaults, USE_REDIS, cleanEnv } = require('./lib/db');
 const { hashPassword, verifyPassword, signToken, verifyToken } = require('./lib/auth');
 const { parseMultipart } = require('./lib/multipart');
 const { ensureAdmin } = require('./lib/bootstrap');
@@ -21,7 +21,7 @@ const COOKIE_NAME = 'closet60_token';
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
 
-const USE_CLOUDINARY = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+const USE_CLOUDINARY = !!(cleanEnv('CLOUDINARY_CLOUD_NAME') && cleanEnv('CLOUDINARY_API_KEY') && cleanEnv('CLOUDINARY_API_SECRET'));
 if (!USE_CLOUDINARY && !fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
 const MIME = {
@@ -35,7 +35,10 @@ const MIME = {
   '.gif': 'image/gif',
   '.svg': 'image/svg+xml',
   '.webp': 'image/webp',
-  '.ico': 'image/x-icon'
+  '.ico': 'image/x-icon',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
+  '.mov': 'video/quicktime'
 };
 
 function sendJSON(res, status, data, extraHeaders = {}) {
@@ -117,12 +120,14 @@ async function readMultipart(req, limit) {
   return parseMultipart(buf, boundary);
 }
 
-// Uploads an image buffer to Cloudinary using a signed request (no SDK —
-// just crypto for the signature and the built-in fetch/FormData/Blob).
+// Uploads an image or video buffer to Cloudinary using a signed request (no
+// SDK — just crypto for the signature and the built-in fetch/FormData/Blob).
+// Uses Cloudinary's "auto" resource type so the same helper handles both
+// banner images and short looping banner videos without extra branching.
 async function uploadToCloudinary(fileEntry) {
-  const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-  const apiKey = process.env.CLOUDINARY_API_KEY;
-  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+  const cloudName = cleanEnv('CLOUDINARY_CLOUD_NAME');
+  const apiKey = cleanEnv('CLOUDINARY_API_KEY');
+  const apiSecret = cleanEnv('CLOUDINARY_API_SECRET');
 
   const timestamp = Math.floor(Date.now() / 1000);
   const paramsToSign = `timestamp=${timestamp}`;
@@ -134,7 +139,7 @@ async function uploadToCloudinary(fileEntry) {
   form.append('timestamp', String(timestamp));
   form.append('signature', signature);
 
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
     method: 'POST',
     body: form
   });
@@ -237,16 +242,19 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, (await load()).siteContent);
     }
 
-    // Uploads a single banner slide image and returns its URL. Called by the
-    // admin panel as soon as a slide's image file is chosen, ahead of the
-    // main site-content save (which is a plain JSON PUT).
+    // Uploads a single banner slide's media (image or short looping video)
+    // and returns its URL. Called by the admin panel as soon as a slide's
+    // file is chosen, ahead of the main site-content save (a plain JSON PUT).
+    // Limit raised to 64MB (same ceiling as batch product uploads) so a
+    // short banner video has room — keep clips a few seconds long and
+    // lightly compressed for fast loading on mobile.
     if (pathname === '/api/admin/site-content/banner-image' && method === 'POST') {
       const user = getUser(req);
       if (!user) return sendJSON(res, 401, { error: 'Not logged in' });
       if (user.role !== 'admin') return sendJSON(res, 403, { error: 'Admin access only' });
 
-      const { files } = await readMultipart(req, 16 * 1024 * 1024);
-      if (!files.image) return sendJSON(res, 400, { error: 'No image file received' });
+      const { files } = await readMultipart(req, 64 * 1024 * 1024);
+      if (!files.image) return sendJSON(res, 400, { error: 'No file received' });
       const url = await saveUploadedFile(files.image);
       return sendJSON(res, 201, { url });
     }
