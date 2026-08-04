@@ -631,13 +631,24 @@
     let bannerSlidesData = [];
 
     function bannerSlideRow(slide, idx) {
+      const mediaType = slide.mediaType === 'video' ? 'video' : 'image';
+      const thumbContent = slide.image
+        ? (mediaType === 'video'
+            ? `<video src="${slide.image}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>`
+            : `<img src="${slide.image}" style="width:100%;height:100%;object-fit:cover;">`)
+        : 'No media';
+      const accept = mediaType === 'video' ? 'video/mp4,video/webm,video/quicktime' : 'image/*';
       return `
         <div class="banner-slide-row" data-idx="${idx}" style="display:grid;grid-template-columns:88px 1fr;gap:16px;align-items:start;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px;">
           <div>
             <div class="bs-thumb" style="width:80px;height:80px;border-radius:8px;background:#222;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:10.5px;color:var(--grey);text-align:center;">
-              ${slide.image ? `<img src="${slide.image}" style="width:100%;height:100%;object-fit:cover;">` : 'No image'}
+              ${thumbContent}
             </div>
-            <input type="file" accept="image/*" class="bs-image-input" style="margin-top:8px;font-size:10px;width:80px;">
+            <select class="row-input bs-media-type" style="margin-top:8px;font-size:10.5px;width:80px;padding:4px;">
+              <option value="image" ${mediaType === 'image' ? 'selected' : ''}>Image</option>
+              <option value="video" ${mediaType === 'video' ? 'selected' : ''}>Video</option>
+            </select>
+            <input type="file" accept="${accept}" class="bs-image-input" style="margin-top:6px;font-size:10px;width:80px;">
           </div>
           <div>
             <div class="form-grid" style="grid-template-columns:1fr 1fr;">
@@ -649,6 +660,7 @@
               <label style="font-size:12.5px;color:var(--grey);"><input type="checkbox" class="bs-enabled" ${slide.enabled ? 'checked' : ''} style="width:auto;margin-right:6px;vertical-align:middle;">Show this slide</label>
               <button type="button" class="del-btn bs-remove">Remove Slide</button>
             </div>
+            ${mediaType === 'video' ? '<div style="margin-top:8px;font-size:11.5px;color:var(--grey);">Tip: keep videos short (5–10s), muted, and lightly compressed — they autoplay on loop with no sound.</div>' : ''}
           </div>
         </div>
       `;
@@ -665,9 +677,17 @@
           bannerSlidesData.splice(idx, 1);
           renderBannerSlides();
         });
+        row.querySelector('.bs-media-type').addEventListener('change', (e) => {
+          bannerSlidesData[idx].mediaType = e.target.value;
+          // Existing uploaded file (if any) almost certainly doesn't match the
+          // new type, so clear it and let the admin upload the right kind.
+          bannerSlidesData[idx].image = '';
+          renderBannerSlides();
+        });
         row.querySelector('.bs-image-input').addEventListener('change', async (e) => {
           const file = e.target.files[0];
           if (!file) return;
+          const mediaType = row.querySelector('.bs-media-type').value;
           const thumb = row.querySelector('.bs-thumb');
           thumb.textContent = 'Uploading…';
           const fd = new FormData();
@@ -677,7 +697,10 @@
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || 'Upload failed');
             bannerSlidesData[idx].image = data.url;
-            thumb.innerHTML = `<img src="${data.url}" style="width:100%;height:100%;object-fit:cover;">`;
+            bannerSlidesData[idx].mediaType = mediaType;
+            thumb.innerHTML = mediaType === 'video'
+              ? `<video src="${data.url}" muted loop autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>`
+              : `<img src="${data.url}" style="width:100%;height:100%;object-fit:cover;">`;
           } catch (err) {
             thumb.textContent = 'Upload failed';
             alert(err.message);
@@ -689,7 +712,7 @@
     }
 
     document.getElementById('addSlideBtn').addEventListener('click', () => {
-      bannerSlidesData.push({ enabled: false, image: '', title: '', subtitle: '', linkUrl: '#shop' });
+      bannerSlidesData.push({ enabled: false, image: '', mediaType: 'image', title: '', subtitle: '', linkUrl: '#shop' });
       renderBannerSlides();
     });
 
@@ -698,6 +721,7 @@
       return Array.from(rows).map((row, idx) => ({
         enabled: row.querySelector('.bs-enabled').checked,
         image: bannerSlidesData[idx] ? bannerSlidesData[idx].image : '',
+        mediaType: row.querySelector('.bs-media-type').value,
         title: row.querySelector('.bs-title').value,
         subtitle: row.querySelector('.bs-subtitle').value,
         linkUrl: row.querySelector('.bs-link').value

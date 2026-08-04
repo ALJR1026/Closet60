@@ -324,7 +324,10 @@
       const caption = (slide.title || slide.subtitle)
         ? `<div class="carousel-caption">${slide.title ? `<h3>${escapeHtml(slide.title)}</h3>` : ''}${slide.subtitle ? `<p>${escapeHtml(slide.subtitle)}</p>` : ''}</div>`
         : '';
-      slideEl.innerHTML = `<img src="${slide.image}" alt="${escapeHtml(slide.title || 'Promotional banner')}">${caption}`;
+      const media = slide.mediaType === 'video'
+        ? `<video src="${slide.image}" autoplay muted loop playsinline></video>`
+        : `<img src="${slide.image}" alt="${escapeHtml(slide.title || 'Promotional banner')}">`;
+      slideEl.innerHTML = `${media}${caption}`;
       track.appendChild(slideEl);
 
       const dot = document.createElement('button');

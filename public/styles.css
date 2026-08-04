@@ -62,7 +62,7 @@ a{color:inherit;text-decoration:none;}
 .promo-carousel.show{display:block;}
 .carousel-track{display:flex;width:100%;height:100%;transition:transform .7s cubic-bezier(.65,0,.35,1);}
 .carousel-slide{flex:0 0 100%;height:100%;position:relative;}
-.carousel-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+.carousel-slide img, .carousel-slide video{width:100%;height:100%;object-fit:cover;display:block;}
 .carousel-slide.linked{cursor:pointer;}
 .carousel-caption{
   position:absolute;left:0;bottom:0;right:0;padding:26px 40px 30px;
